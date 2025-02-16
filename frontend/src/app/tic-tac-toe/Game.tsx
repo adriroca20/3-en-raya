@@ -17,15 +17,24 @@ export default function Game() {
     setSquares(nextSquares);
     setCurrentMove(currentMove + 1);
   };
+  const handleReset = () => {
+    setSquares(Array(9).fill(null));
+    setCurrentMove(0);
+  };
 
   return (
-    <div className="p-8 bg-background rounded-lg shadow-xl">
-      <h1 className="text-4xl font-bold text-center mb-8 text-white">
-        Tic Tac Toe
-      </h1>
-      <div className="flex flex-col md:flex-row justify-center items-center gap-8">
+    <div className="p-8 bg-white rounded-lg shadow-xl">
+      <div className="flex flex-col md:flex-col justify-center gap-8">
+        <GameInfo playerTurn={xIsNext ? "X" : "O"} />
         <Board squares={squares} onPlay={handlePlay} />
-        <GameInfo currentMove={currentMove} playerTurn={xIsNext ? "X" : "O"} />
+        <div className="flex flex-col md:flex-col justify-center gap-8">
+          <button
+            className="bg-accent text-black rounded flex items-center justify-center border border-transparent hover:bg-white hover:border-accent transition-all"
+            onClick={handleReset}
+          >
+            <span className="text-2xl font-bold">Reset game</span>
+          </button>
+        </div>
       </div>
     </div>
   );
