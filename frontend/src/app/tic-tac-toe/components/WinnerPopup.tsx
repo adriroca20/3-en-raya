@@ -1,4 +1,4 @@
-import { Players } from "@/app/enums/Players";
+import { Players } from "@/app/lib/definitions";
 import ReactConfetti from "react-confetti";
 
 interface WinnerPopupProps {

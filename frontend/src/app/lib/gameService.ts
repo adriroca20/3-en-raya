@@ -1,5 +1,4 @@
-import { Board } from "@/app/interfaces/IBoard";
-import { INextMove } from "@/app/interfaces/INextMove";
+import { Board, INextMove } from "@/app/lib/definitions";
 
 const API_URL = 'http://localhost:4321/api/game';
 export const gameService = {

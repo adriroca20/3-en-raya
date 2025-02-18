@@ -1,7 +1,6 @@
-import { gameService } from "@/app/shared/services/gameService";
+import { gameService } from "@/app/lib/gameService";
 import { useState, useEffect } from "react";
-import { Board } from "@/app/interfaces/IBoard";
-import { Players } from "@/app/enums/Players";
+import { Board, Players } from "@/app/lib/definitions";
 
 export const useGame = () => {
   const [board, setBoard] = useState<Board>({
