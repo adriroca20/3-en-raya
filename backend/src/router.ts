@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import { GameController } from "./controller";
-import { Board } from "./interfaces/Board";
+import { Board } from "./interfaces/IBoard";
 
 const router = Router();
 const gameController = new GameController();
@@ -36,7 +36,7 @@ router.post("/check-winner", (req: Request, res: Response) => {
   }
 });
 
-router.post("/next-move", (req: Request, res: Response) => {
+router.post("/player-move", async (req: Request, res: Response) => {
   try {
     const board = req.body;
 
@@ -60,9 +60,10 @@ router.post("/next-move", (req: Request, res: Response) => {
       return;
     }
 
-    const result = gameController.calculateNextMove(board);
+    const result = await gameController.handlePlayerMove(board);
     res.json(result);
   } catch (error) {
+    console.error('Error:', error);
     res.status(500).json({
       error: "Error al procesar la solicitud",
     });

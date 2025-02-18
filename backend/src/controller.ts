@@ -1,18 +1,12 @@
-import { Board } from "./interfaces/Board";
-
-const WINNING_SQUARES = [
-  [0, 1, 2],
-  [3, 4, 5],
-  [6, 7, 8],
-  [0, 3, 6],
-  [1, 4, 7],
-  [2, 5, 8],
-  [0, 4, 8],
-  [2, 4, 6],
-];
+import { WINNING_SQUARES } from "./constants";
+import { GameResult } from "./enums/GameResult";
+import { Players } from "./enums/Players";
+import { Board } from "./interfaces/IBoard";
+import { GameRepository } from "./repository";
 
 export class GameController {
-  private calculateWinner(squares: Array<"X" | "O" | null>): "X" | "O" | null {
+  private gameRepository = new GameRepository();
+  private calculateWinner(squares: Array<Players | null>): Players | null {
     for (const [a, b, c] of WINNING_SQUARES) {
       if (
         squares[a] &&
@@ -26,7 +20,7 @@ export class GameController {
     return null;
   }
 
-  checkWinner(board: Board): { winner: "X" | "O" | null; isGameOver: boolean } {
+  checkWinner(board: Board): { winner: Players | null; isGameOver: boolean } {
     const winner = this.calculateWinner(board.squares);
     // Acaba la partida si hay un ganador o no hay espacios vacios
     const isGameOver = winner !== null || !board.squares.includes(null);
@@ -36,10 +30,7 @@ export class GameController {
     };
   }
 
-  calculateNextMove(board: Board): {
-    updatedBoard: Board;
-    gameStatus: { winner: "X" | "O" | null; isGameOver: boolean };
-  } {
+  calculateNextMove(board: Board): Board {
     // Copiar el tablero para no modificar el original
     const newSquares = [...board.squares];
 
@@ -51,10 +42,7 @@ export class GameController {
 
     // Si no hay posiciones vacías, retornar el mismo tablero
     if (emptySquares.length === 0) {
-      return {
-        updatedBoard: board,
-        gameStatus: this.checkWinner(board),
-      };
+      return board;
     }
 
     // Implementación simple: elegir una posición aleatoria vacía
@@ -62,14 +50,38 @@ export class GameController {
     const selectedPosition = emptySquares[randomIndex];
 
     // La máquina juega con 'O'
-    newSquares[selectedPosition] = "O";
+    newSquares[selectedPosition] = Players.O;
 
     const updatedBoard: Board = { squares: newSquares };
-    const gameStatus = this.checkWinner(updatedBoard);
+
+    return updatedBoard;
+  }
+
+  async handlePlayerMove(board: Board): Promise<{
+    updatedBoard: Board;
+    gameStatus: { winner: Players | null; isGameOver: boolean };
+  }> {
+    const updatedBoard = this.calculateNextMove(board);
+    const {isGameOver, winner} = this.checkWinner(updatedBoard);
+    
+    if (isGameOver) {
+      if (!winner) {
+        // Es un empate
+        await this.gameRepository.saveGameResult(Players.X, GameResult.DRAW);
+        await this.gameRepository.saveGameResult(Players.O, GameResult.DRAW);
+      } else {
+        // Hay un ganador
+        const winningPlayer = winner;
+        const losingPlayer = winner === Players.X ? Players.O : Players.X;
+        
+        await this.gameRepository.saveGameResult(winningPlayer, GameResult.WIN);
+        await this.gameRepository.saveGameResult(losingPlayer, GameResult.LOSE);
+      }
+    }
 
     return {
       updatedBoard,
-      gameStatus,
+      gameStatus: { winner, isGameOver },
     };
   }
 }
