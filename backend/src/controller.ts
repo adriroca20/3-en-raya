@@ -2,6 +2,7 @@ import { WINNING_SQUARES } from "./constants";
 import { GameResult } from "./enums/GameResult";
 import { Players } from "./enums/Players";
 import { Board } from "./interfaces/IBoard";
+import { INextMove } from "./interfaces/INextMove";
 import { GameRepository } from "./repository";
 
 export class GameController {
@@ -57,10 +58,7 @@ export class GameController {
     return updatedBoard;
   }
 
-  async handlePlayerMove(board: Board): Promise<{
-    updatedBoard: Board;
-    gameStatus: { winner: Players | null; isGameOver: boolean };
-  }> {
+  async handlePlayerMove(board: Board): Promise<INextMove> {
     const updatedBoard = this.calculateNextMove(board);
     const {isGameOver, winner} = this.checkWinner(updatedBoard);
     

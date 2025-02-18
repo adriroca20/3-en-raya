@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import { GameController } from "./controller";
 import { Board } from "./interfaces/IBoard";
+import { Players } from "./enums/Players";
 
 const router = Router();
 const gameController = new GameController();
@@ -38,8 +39,7 @@ router.post("/check-winner", (req: Request, res: Response) => {
 
 router.post("/player-move", async (req: Request, res: Response) => {
   try {
-    const board = req.body;
-
+    const board: Board = req.body;
     // Validar que el tablero sea válido
     if (!board || !Array.isArray(board.squares) || board.squares.length !== 9) {
       res.status(400).json({
@@ -50,7 +50,7 @@ router.post("/player-move", async (req: Request, res: Response) => {
 
     // Validar que cada posición sea X, O o null
     const isValidBoard = board.squares.every(
-      (square: string) => square === "X" || square === "O" || square === null
+      (square: Players | null) => square === Players.X || square === Players.O || square === null
     );
 
     if (!isValidBoard) {
