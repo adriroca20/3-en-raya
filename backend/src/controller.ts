@@ -2,6 +2,7 @@ import { WINNING_SQUARES } from "./constants";
 import { GameResult } from "./enums/GameResult";
 import { Players } from "./enums/Players";
 import { Board } from "./interfaces/IBoard";
+import { IGameResult } from "./interfaces/IGameResult";
 import { INextMove } from "./interfaces/INextMove";
 import { GameRepository } from "./repository";
 
@@ -65,15 +66,10 @@ export class GameController {
     if (isGameOver) {
       if (!winner) {
         // Es un empate
-        await this.gameRepository.saveGameResult(Players.X, GameResult.DRAW);
-        await this.gameRepository.saveGameResult(Players.O, GameResult.DRAW);
+        await this.gameRepository.saveGameResult('DRAW');
       } else {
         // Hay un ganador
-        const winningPlayer = winner;
-        const losingPlayer = winner === Players.X ? Players.O : Players.X;
-        
-        await this.gameRepository.saveGameResult(winningPlayer, GameResult.WIN);
-        await this.gameRepository.saveGameResult(losingPlayer, GameResult.LOSE);
+        await this.gameRepository.saveGameResult(winner);
       }
     }
 
@@ -82,7 +78,7 @@ export class GameController {
       gameStatus: { winner, isGameOver },
     };
   }
-  async getGameResults(): Promise<GameResult[]> {
+  async getGameResults(): Promise<IGameResult[]> {
     return this.gameRepository.getGameResults();
   }
 }

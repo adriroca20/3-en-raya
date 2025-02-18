@@ -5,4 +5,6 @@ export interface IGameResult {
     player: Players;
     result: GameResult;
     date: Date;
+    winner: 'X' | 'O' | 'DRAW';
+    gameNumber: number;
 } 

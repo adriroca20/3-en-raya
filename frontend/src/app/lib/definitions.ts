@@ -6,15 +6,8 @@ export interface Board {
   squares: Array<Players | null>;
 }
 export interface IGameResult {
-  player: Players;
-  result: GameResult;
+  winner: Players | "draw";
   date: string;
-}
-
-export enum GameResult {
-  WIN = "win",
-  LOSE = "lose",
-  DRAW = "draw",
 }
 
 export enum Players {

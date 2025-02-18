@@ -24,10 +24,7 @@ export default function RankingPage() {
                 Game number
               </th>
               <th className="px-6 py-3 text-center text-xs font-medium text-background uppercase tracking-wider">
-                Player
-              </th>
-              <th className="px-6 py-3 text-center text-xs font-medium text-background uppercase tracking-wider">
-                Result
+                Winner
               </th>
               <th className="px-6 py-3 text-center text-xs font-medium text-background uppercase tracking-wider">
                 Date
@@ -41,10 +38,7 @@ export default function RankingPage() {
                   {index + 1}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-background text-center">
-                  {entry.player}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-background text-center">
-                  {entry.result}
+                  {entry.winner}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-background text-center">
                   {entry.date}
@@ -56,7 +50,7 @@ export default function RankingPage() {
       </div>
       <Link
         href="/tic-tac-toe"
-        className={`text-background hover:text-gray-300 bg-accent px-5 py-2 text-center text-2xl rounded-lg`}
+        className={`text-background hover:scale-105 transition-all bg-accent px-5 py-2 text-center text-2xl rounded-lg`}
       >
         Jugar
       </Link>

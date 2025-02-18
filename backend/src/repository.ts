@@ -4,11 +4,10 @@ import { IGameResult } from "./interfaces/IGameResult";
 import { GameResultModel } from "./models/GameResult";
 
 export class GameRepository {
-    async saveGameResult(player: Players, result: GameResult): Promise<IGameResult> {
+    async saveGameResult(winner: Players | 'DRAW'): Promise<IGameResult> {
         const gameResult = new GameResultModel({
-            player,
-            result,
-            date: new Date()
+            winner,
+            date: new Date(),
         });
 
         return await gameResult.save();
@@ -24,7 +23,7 @@ export class GameRepository {
         };
     }
 
-    async getGameResults(): Promise<GameResult[]> {
-        return GameResultModel.find();
+    async getGameResults(): Promise<IGameResult[]> {
+        return GameResultModel.find().sort({ gameNumber: -1 });
     }
 }
