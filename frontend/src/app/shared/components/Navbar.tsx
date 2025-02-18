@@ -6,7 +6,7 @@ export const Navbar = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="bg-white fixed top-5 left-1/2 -translate-x-1/2 z-50 w-1/3 p-4 rounded">
+    <nav className="bg-white fixed top-0 md:top-5 left-1/2 -translate-x-1/2 z-50 w-full md:w-1/3 p-4 rounded">
       <div className="container mx-auto flex justify-between items-center">
         <div className="text-background font-bold text-xl">Tic Tac Toe</div>
         <div className="space-x-4">
