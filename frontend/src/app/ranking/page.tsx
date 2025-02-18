@@ -1,44 +1,52 @@
 "use client";
 
+import Link from "next/link";
 import { useGameResults } from "./hooks/useGameResults";
 
 export default function RankingPage() {
   const { gameResults, error, loading } = useGameResults();
-  if (loading) return <div>Cargando...</div>;
+  console.log(loading);
+  console.log(gameResults);
+  if (loading || gameResults.length === 0)
+    return (
+      <div className="h-[70vh] container mx-auto px-4 py-8 flex items-center justify-center bg-gray-100 rounded-lg">
+        <div className="w-16 h-16 border-4 border-t-transparent border-background rounded-full animate-spin" />
+      </div>
+    );
   if (error) return <div>Error: {error}</div>;
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="max-h-[70vh] overflow-y-auto relative [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
-        <table className="bg-gray-800 rounded-lg shadow-lg w-full">
+    <div className="container mx-auto px-4 py-8 flex flex-col gap-4 justify-center items-center">
+      <div className="max-h-[70vh] w-full rounded-lg overflow-y-auto relative [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+        <table className="bg-white rounded-lg shadow-lg w-full">
           <thead className="sticky top-0 z-10">
-            <tr className="bg-gray-700">
-              <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+            <tr className="bg-accent">
+              <th className="px-6 py-3 text-center text-xs font-medium text-background uppercase tracking-wider">
                 Game number
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+              <th className="px-6 py-3 text-center text-xs font-medium text-background uppercase tracking-wider">
                 Player
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+              <th className="px-6 py-3 text-center text-xs font-medium text-background uppercase tracking-wider">
                 Result
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+              <th className="px-6 py-3 text-center text-xs font-medium text-background uppercase tracking-wider">
                 Date
               </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-600">
             {gameResults.map((entry, index) => (
-              <tr key={index} className="hover:bg-gray-700">
-                <td className="px-6 py-4 whitespace-nowrap text-white">
+              <tr key={index} className="hover:bg-gray-200">
+                <td className="px-6 py-4 whitespace-nowrap text-background text-center">
                   {index + 1}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-white">
+                <td className="px-6 py-4 whitespace-nowrap text-background text-center">
                   {entry.player}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-green-400">
+                <td className="px-6 py-4 whitespace-nowrap text-background text-center">
                   {entry.result}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-green-400">
+                <td className="px-6 py-4 whitespace-nowrap text-background text-center">
                   {entry.date}
                 </td>
               </tr>
@@ -46,6 +54,12 @@ export default function RankingPage() {
           </tbody>
         </table>
       </div>
+      <Link
+        href="/tic-tac-toe"
+        className={`text-background hover:text-gray-300 bg-accent px-5 py-2 text-center text-2xl rounded-lg`}
+      >
+        Jugar
+      </Link>
     </div>
   );
 }
