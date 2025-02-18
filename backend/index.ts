@@ -1,8 +1,8 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import gameRouter from "./src/router";
-import { GameController } from "./src/controller";
+import gameRouter from "./src/gameRouter";
+import { GameController } from "./src/gameController";
 import { connectDB } from "./src/config/database";
 
 dotenv.config();

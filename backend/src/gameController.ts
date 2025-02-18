@@ -4,7 +4,7 @@ import { Players } from "./enums/Players";
 import { Board } from "./interfaces/IBoard";
 import { IGameResult } from "./interfaces/IGameResult";
 import { INextMove } from "./interfaces/INextMove";
-import { GameRepository } from "./repository";
+import { GameRepository } from "./gameRepository";
 
 export class GameController {
   private gameRepository = new GameRepository();
@@ -33,30 +33,43 @@ export class GameController {
   }
 
   calculateNextMove(board: Board): Board {
-    // Copiar el tablero para no modificar el original
     const newSquares = [...board.squares];
-
-    // Encontrar todas las posiciones vacías
+    // Obtener los indices de las posiciones vacias
     const emptySquares = newSquares.reduce((acc: number[], square, index) => {
       if (square === null) acc.push(index);
       return acc;
     }, []);
 
-    // Si no hay posiciones vacías, retornar el mismo tablero
     if (emptySquares.length === 0) {
       return board;
     }
 
-    // Implementación simple: elegir una posición aleatoria vacía
+    // Buscar jugada ganadora para la máquina
+    for (const position of emptySquares) {
+      const testSquares = [...newSquares];
+      testSquares[position] = Players.O;
+      if (this.calculateWinner(testSquares) === Players.O) {
+        newSquares[position] = Players.O;
+        return { squares: newSquares };
+      }
+    }
+
+    // Bloquear jugada ganadora del jugador
+    for (const position of emptySquares) {
+      const testSquares = [...newSquares];
+      testSquares[position] = Players.X;
+      if (this.calculateWinner(testSquares) === Players.X) {
+        newSquares[position] = Players.O;
+        return { squares: newSquares };
+      }
+    }
+
+    // Elección aleatoria
     const randomIndex = Math.floor(Math.random() * emptySquares.length);
     const selectedPosition = emptySquares[randomIndex];
-
-    // La máquina juega con 'O'
     newSquares[selectedPosition] = Players.O;
 
-    const updatedBoard: Board = { squares: newSquares };
-
-    return updatedBoard;
+    return { squares: newSquares };
   }
 
   async handlePlayerMove(board: Board): Promise<INextMove> {
