@@ -7,13 +7,13 @@ interface WinnerPopupProps {
 }
 
 export const WinnerPopup = ({ winner, onReset }: WinnerPopupProps) => {
-  if (!winner) return null;
 
   const getMessage = () => {
+    if (!winner) return "Draw! 🤷‍♂️";
     if (winner === Players.X) {
-      return "¡Felicidades! Has ganado la partida 🎉";
+      return "¡You win! 🎉";
     }
-    return "¡La máquina ha ganado! 🤖";
+    return "¡Machine win! 🤖";
   };
 
   const windowWidth = window.innerWidth;
@@ -26,13 +26,13 @@ export const WinnerPopup = ({ winner, onReset }: WinnerPopupProps) => {
         <div className="bg-white rounded-lg p-8 shadow-xl transform transition-all animate-fadeIn">
           <div className="flex flex-col items-center justify-center space-y-4">
             <div className="text-4xl font-bold text-background">
-              ¡Fin del Juego!
+              Game Over
             </div>
             <p className="text-xl text-gray-700 text-center">{getMessage()}</p>
             <div className="mt-2">
               <span
                 className={`text-6xl ${
-                  winner === Players.X ? "text-blue-500" : "text-red-500"
+                  winner === Players.X ? "text-red-500" : "text-blue-500"
                 } font-bold`}
               >
                 {winner}
@@ -44,7 +44,7 @@ export const WinnerPopup = ({ winner, onReset }: WinnerPopupProps) => {
                                  hover:from-blue-600 hover:to-purple-600 transform hover:scale-105 transition-all
                                  focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50"
             >
-              Jugar de nuevo
+              Play again
             </button>
           </div>
         </div>

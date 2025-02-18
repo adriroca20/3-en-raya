@@ -5,8 +5,6 @@ import { useGameResults } from "./hooks/useGameResults";
 
 export default function RankingPage() {
   const { gameResults, error, loading } = useGameResults();
-  console.log(loading);
-  console.log(gameResults);
   if (loading || gameResults.length === 0)
     return (
       <div className="h-[70vh] container mx-auto px-4 py-8 flex items-center justify-center bg-gray-100 rounded-lg">

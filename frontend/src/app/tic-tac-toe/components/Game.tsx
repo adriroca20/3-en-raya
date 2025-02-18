@@ -22,7 +22,7 @@ export default function Game() {
             className="bg-accent text-black rounded flex items-center justify-center border border-transparent hover:bg-white hover:border-accent transition-all"
             onClick={handleReset}
           >
-            <span className="text-2xl font-bold">Reiniciar</span>
+            <span className="text-2xl font-bold">Restart</span>
           </button>
         </div>
       </div>
