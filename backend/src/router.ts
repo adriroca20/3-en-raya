@@ -69,5 +69,16 @@ router.post("/player-move", async (req: Request, res: Response) => {
     });
   }
 });
+router.get("/game-results", async (req: Request, res: Response) => {
+  try {
+    const results = await gameController.getGameResults();
+    res.json(results);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({
+      error: "Error al obtener los resultados de las partidas",
+    });
+  }
+});
 
 export default router;

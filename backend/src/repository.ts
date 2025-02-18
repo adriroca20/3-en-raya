@@ -23,4 +23,8 @@ export class GameRepository {
             draws: results.filter(r => r.result === GameResult.DRAW).length
         };
     }
+
+    async getGameResults(): Promise<GameResult[]> {
+        return GameResultModel.find();
+    }
 }

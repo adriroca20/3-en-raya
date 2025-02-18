@@ -84,4 +84,7 @@ export class GameController {
       gameStatus: { winner, isGameOver },
     };
   }
+  async getGameResults(): Promise<GameResult[]> {
+    return this.gameRepository.getGameResults();
+  }
 }
