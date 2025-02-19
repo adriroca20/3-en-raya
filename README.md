@@ -41,7 +41,7 @@ npm install
 
 3. Crear archivo `.env` en la raíz del backend con las siguientes variables:
 ```
-MONGODB_URI=mongodb://localhost:27017/tictactoe
+MONGODB_URI=mongodb://ejemplo:27017/tictactoe
 PORT=3001
 ```
 
